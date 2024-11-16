@@ -1,4 +1,4 @@
-# TSneakPeaks
+# tSNEakPeaks
 
 TSneakPeaks is a Python-based tool for visualizing high-dimensional image data using **t-SNE** (t-distributed Stochastic Neighbor Embedding). It allows users to explore patterns and relationships in image collections by projecting features into an interactive 3D space.
 
