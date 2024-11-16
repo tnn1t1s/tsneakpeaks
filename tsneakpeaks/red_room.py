@@ -32,9 +32,7 @@ class Visualizer:
                      title: str = "TSneakPeaks: A Vision") -> go.Figure:
         
         hover_texts = [
-            f'<img src="file://{Path(path).absolute()}" width="100">'
             f"🌲 Image: {Path(path).name}\n"
-            f"Colors: {int(np.sum(labels[i]))}"
             for i, path in enumerate(image_paths)
         ]
         
