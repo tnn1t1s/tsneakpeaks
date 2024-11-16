@@ -17,8 +17,8 @@ class WhiteLodge:
     """Handles dimension reduction to 3D space"""
     
     def __init__(self, 
-                 perplexity: float = 30.0,
-                 n_iter: int = 1000,
+                 perplexity: float = 20.0,
+                 n_iter: int = 3000,
                  random_state: int = 42,
                  logger: Optional[logging.Logger] = None):
         self.perplexity = perplexity

@@ -1,0 +1,132 @@
+{
+    "palette": [
+        {
+            "color": [
+                140,
+                0,
+                0
+            ],
+            "description": "Dark Red (Red Room curtains)"
+        },
+        {
+            "color": [
+                20,
+                20,
+                20
+            ],
+            "description": "Black Lodge black"
+        },
+        {
+            "color": [
+                255,
+                255,
+                255
+            ],
+            "description": "White Lodge white"
+        },
+        {
+            "color": [
+                0,
+                50,
+                0
+            ],
+            "description": "Dark forest green"
+        },
+        {
+            "color": [
+                101,
+                67,
+                33
+            ],
+            "description": "Log brown"
+        },
+        {
+            "color": [
+                200,
+                155,
+                100
+            ],
+            "description": "Coffee cream"
+        },
+        {
+            "color": [
+                50,
+                0,
+                0
+            ],
+            "description": "Black Lodge floor"
+        },
+        {
+            "color": [
+                255,
+                215,
+                0
+            ],
+            "description": "Laura's hair (gold)"
+        },
+        {
+            "color": [
+                0,
+                0,
+                50
+            ],
+            "description": "Night sky blue"
+        },
+        {
+            "color": [
+                150,
+                75,
+                0
+            ],
+            "description": "Owl brown"
+        },
+        {
+            "color": [
+                255,
+                182,
+                193
+            ],
+            "description": "Audrey's lipstick (pink)"
+        },
+        {
+            "color": [
+                128,
+                0,
+                0
+            ],
+            "description": "Blood red"
+        },
+        {
+            "color": [
+                218,
+                165,
+                32
+            ],
+            "description": "Double R Diner gold"
+        },
+        {
+            "color": [
+                25,
+                25,
+                112
+            ],
+            "description": "FBI blue"
+        },
+        {
+            "color": [
+                139,
+                69,
+                19
+            ],
+            "description": "Douglas Fir"
+        },
+        {
+            "color": [
+                112,
+                128,
+                144
+            ],
+            "description": "Pacific Northwest fog gray"
+        }
+    ]
+}
