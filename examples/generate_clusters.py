@@ -1,6 +1,5 @@
 import numpy as np
 from PIL import Image
-import os
 from pathlib import Path
 
 # Twin Peaks inspired color palette
@@ -42,7 +41,7 @@ def generate_color_vector(centers, spreads, n_colors=4):
         size=n_colors, 
         p=probs/probs.sum()
     )
-    return color_indices, probs
+    return color_indices
 
 def main():
     output_dir = Path("test_data")
@@ -52,12 +51,13 @@ def main():
     n_images = 1000
     image_size = 256
     half = image_size // 2
-    
+    n_quadrants = 4
+
     # Generate cluster parameters
     centers, spreads = generate_cluster_params(n_clusters=5, n_dims=len(TP_COLORS))
     
-    # Store labels (probability vectors)
-    all_labels = np.zeros((n_images, len(TP_COLORS)))
+    # Store labels (quadrant color indices)
+    labels = np.zeros((n_images, n_quadrants), dtype=int)
     
     # Generate images
     for i in range(n_images):
@@ -65,15 +65,15 @@ def main():
         img = np.zeros((image_size, image_size, 3), dtype=np.uint8)
         
         # Get colors for this image
-        color_indices, probs = generate_color_vector(centers, spreads)
-        all_labels[i] = probs
+        color_indices = generate_color_vector(centers, spreads, n_colors=n_quadrants)
+        labels[i] = color_indices
         
         # Fill quadrants
         quadrants = [
-            (0, 0, half, half),
-            (0, half, half, image_size),
-            (half, 0, image_size, half),
-            (half, half, image_size, image_size)
+            (0, 0, half, half),          # Top-left
+            (0, half, half, image_size), # Top-right
+            (half, 0, image_size, half), # Bottom-left
+            (half, half, image_size, image_size)  # Bottom-right
         ]
         
         for (y1, x1, y2, x2), color_idx in zip(quadrants, color_indices):
@@ -83,9 +83,10 @@ def main():
         # Save image
         Image.fromarray(img).save(output_dir / f"image_{i:04d}.png")
     
-    # Save labels
-    np.save(output_dir / "labels.npy", all_labels)
-    print(f"Generated {n_images} images in {output_dir}")
+    # Save labels (quadrant color indices)
+    np.save(output_dir / "quadrant_labels.npy", labels)
+    print(f"Generated {n_images} images with corresponding labels in {output_dir}")
 
 if __name__ == "__main__":
     main()
+
