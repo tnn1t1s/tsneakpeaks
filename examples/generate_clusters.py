@@ -84,7 +84,7 @@ def main():
         Image.fromarray(img).save(output_dir / f"image_{i:04d}.png")
     
     # Save labels (quadrant color indices)
-    np.save(output_dir / "quadrant_labels.npy", labels)
+    np.save(output_dir / "labels.npy", labels)
     print(f"Generated {n_images} images with corresponding labels in {output_dir}")
 
 if __name__ == "__main__":

@@ -45,8 +45,8 @@ class TSneakPeaks:
         self.image_paths, self.labels = self.black_lodge.enter()
         
         # Generate labels if none exist
-        if self.labels is None:
-            self.labels = self.black_lodge.generate_labels()
+        #if self.labels is None:
+        #    self.labels = self.black_lodge.generate_labels()
             
         # Validate in the Waiting Room
         self.waiting_room.validate_data(self.image_paths, self.labels)

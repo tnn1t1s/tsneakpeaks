@@ -59,7 +59,7 @@ for i in range(n_images):
     labels[i] = selected_colors
 
 # Save labels as a separate file
-np.save(output_dir / "quadrant_labels.npy", labels)
+np.save(output_dir / "labels.npy", labels)
 
 print(f"Generated {n_images} images with corresponding labels in {output_dir}")
 

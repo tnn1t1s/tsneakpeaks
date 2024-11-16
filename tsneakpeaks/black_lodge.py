@@ -40,26 +40,3 @@ class BlackLodge:
         self.logger.info(f"Found {len(self.image_paths)} images")
         
         return self.image_paths, self.labels
-        
-    def generate_labels(self, method: str = 'color_grid') -> np.ndarray:
-        """Generate labels from images if not provided"""
-        self.logger.info(f"Generating labels using method: {method}")
-        
-        if method == 'color_grid':
-            labels = []
-            for path in self.image_paths:
-                img = Image.open(path)
-                # Convert image to numpy array and analyze
-                arr = np.array(img)
-                # Extract color features (simplified for example)
-                features = np.concatenate([
-                    arr.mean(axis=(0,1)),  # Average RGB
-                    arr.std(axis=(0,1)),   # Color variation
-                ])
-                labels.append(features)
-            
-            self.labels = np.array(labels)
-            return self.labels
-        else:
-            raise ValueError(f"Unknown label generation method: {method}")
-
