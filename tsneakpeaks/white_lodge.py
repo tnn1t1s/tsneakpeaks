@@ -7,7 +7,7 @@ Like the White Lodge, this is where things become more comprehensible
 import numpy as np
 from sklearn.manifold import TSNE
 from scipy.sparse import vstack
-from Pathlib import Path
+from pathlib import Path
 from typing import Optional, List
 import logging
 from .data_processing import convert_to_sparse_one_hot

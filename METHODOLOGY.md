@@ -5,43 +5,66 @@ TSneakPeaks visualizes high-dimensional image relationships in an interactive 3D
 
 ## How It Works
 
-1. **Dimension Reduction**
-   - Each image is represented by a 16-dimensional vector (based on color presence)
-   - t-SNE algorithm reduces these 16 dimensions to 3 visible dimensions
-   - Similar images are positioned closer together in this 3D space
+### 1. **Data Representation**
+Each image is divided into 4 quadrants, and each quadrant is assigned a single color from a 16-color palette. Instead of representing images with dense vectors, TSneakPeaks uses a **sparse one-hot encoding**:
+- Each image is represented by a sparse matrix where:
+  - Rows correspond to quadrants.
+  - Columns represent one-hot encoded color indices from the palette.
+- This sparse representation preserves both the **categorical nature** of colors and the **spatial structure** of the image.
 
-2. **Visualization Elements**
-   - Each point represents one image
-   - Color intensity indicates number of unique colors in the image
-   - Dark points = fewer colors
-   - Bright points = more colors
+### 2. **Dimension Reduction**
+The sparse one-hot representation is reduced to 3 dimensions using the **t-SNE algorithm**:
+- t-SNE uses **cosine similarity** to measure relationships between high-dimensional points.
+- Local neighborhoods are preserved, meaning similar images are placed closer together in the 3D space.
+
+### 3. **Visualization Elements**
+- Each point represents one image in the dataset.
+- Color intensity indicates the variety of colors in the image:
+  - **Dark points**: Images with fewer unique colors.
+  - **Bright points**: Images with more diverse colors.
 
 ## Interacting with the Visualization
 
 1. **Navigation**
-   - Drag to rotate the view
-   - Scroll to zoom in/out
-   - Right-click drag to pan
+   - Drag to rotate the view.
+   - Scroll to zoom in/out.
+   - Right-click drag to pan.
 
 2. **Image Viewing**
-   - Click any point to see the full image in the sidebar
-   - Hover over points to see image details
+   - Click any point to see the full image in the sidebar.
+   - Hover over points to see image details.
 
 3. **Interpreting Distance**
-   - Points close together = images with similar color patterns
-   - Points far apart = images with different color patterns
+   - **Close Points**: Images with similar quadrant color patterns.
+   - **Distant Points**: Images with different color distributions.
 
 ## Understanding the Results
 
-The visualization creates "neighborhoods" of similar images. When you find an interesting image, look at its neighbors in 3D space - they likely share similar color combinations or patterns. The spatial arrangement preserves local relationships, meaning nearby points are genuinely similar, but distances between far-apart points may be less meaningful.
+The visualization creates "neighborhoods" of similar images:
+- Images with similar quadrant color combinations are grouped closely.
+- Spatial arrangement preserves local relationships (e.g., nearest neighbors are genuinely similar).
+- **Global distances** between far-apart points may be less meaningful due to t-SNE's focus on local structure.
+
+## Recent Improvements
+
+1. **Sparse Representation**:
+   - Images are now represented as sparse one-hot encoded matrices, making the pipeline more efficient and preserving the categorical nature of colors.
+
+2. **Improved t-SNE Integration**:
+   - The t-SNE algorithm now uses **cosine similarity**, which better reflects the nature of the sparse, categorical data.
+
+3. **Cluster Analysis Support**:
+   - The pipeline supports generating and visualizing clusters, helping users explore how images group based on shared color patterns.
 
 ## Limitations
 
-- t-SNE focuses on preserving local structure, so very distant relationships might not be meaningful
-- The current implementation only considers color presence, not spatial arrangements or patterns
-- 3D projection is an approximation of the full 16-dimensional relationship space
+- t-SNE emphasizes local structure, so large-scale distances may not fully represent relationships.
+- The current implementation only considers **color indices**; texture and spatial patterns are not yet included.
+- 3D projection is an approximation of the full high-dimensional relationship space.
 
 ## Future Possibilities
-- Additional feature vectors (texture, patterns, etc.)
-- Different dimension reduction techniques (UMAP, PCA)
-- Clustering analysis
+- Incorporate additional features (e.g., textures, patterns, gradients).
+- Experiment with alternative dimensionality reduction techniques (e.g., UMAP, PCA).
+- Add configurable t-SNE parameters for real-time experimentation.
+- Expand cluster analysis with metrics like silhouette scores or Davies-Bouldin index.
+
