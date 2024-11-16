@@ -1,12 +1,10 @@
-# TSneakPeaks 🌲
+# TSneakPeaks
 
-⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸
-⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸    A Lynchian journey through high-dimensional
-⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⢸    image spaces using t-SNE. Navigate between
-⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸    dimensions like Agent Cooper through the
-⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸    Black and White Lodge.
+TSneakPeaks is a Python-based tool for visualizing high-dimensional image data using **t-SNE** (t-distributed Stochastic Neighbor Embedding). It allows users to explore patterns and relationships in image collections by projecting features into an interactive 3D space.
 
-Through the curtain of dimensionality reduction, your high-dimensional image features are projected into a navigable 3D space where patterns and relationships reveal themselves in mysterious ways.
+## Overview
+
+High-dimensional datasets often contain hidden structures that are difficult to interpret. TSneakPeaks simplifies this by reducing dimensions and providing an intuitive visualization of relationships between images based on their features. This tool is particularly suited for exploring image collections with categorical or spatial data.
 
 ## Quick Start
 
@@ -27,27 +25,25 @@ pip install -e .
 
 ### Generate Test Data
 
-```python
-# Create test data
+```bash
+# Create test data with random quadrant colors
 python examples/generate_test.py
 ```
 
 ### Run Visualization
 
-```python
-# Visualize the data
+```bash
+# Visualize the data in 3D
 python examples/visualize.py
 ```
 
 ## Features
 
-╔═══════════════════════════════════════════╗
-║ ⌘ Navigate image collections in 3D space   ║
-║ ⌘ Project features through t-SNE          ║
-║ ⌘ Dark mode inspired by the Black Lodge   ║
-║ ⌘ Interactive exploration                 ║
-║ ⌘ Dimensional coupling controls           ║
-╚═══════════════════════════════════════════╝
+- **Interactive 3D Visualization**: Navigate high-dimensional image spaces using t-SNE.
+- **Customizable Feature Representation**: Supports sparse one-hot encoding to preserve categorical and spatial relationships.
+- **Cluster Exploration**: Analyze clusters formed by similar image features.
+- **Efficient Data Handling**: Designed to handle large datasets with sparse data efficiently.
+- **Flexible Configuration**: Easily tweak t-SNE parameters (e.g., perplexity, iterations).
 
 ## Requirements
 
@@ -62,16 +58,15 @@ python examples/visualize.py
 ```
 TSneakPeaks/
 ├── tsneakpeaks/
-│   ├── black_lodge.py    # High-dimensional data handling
-│   ├── white_lodge.py    # Dimension reduction
-│   ├── red_room.py       # Visualization
-│   ├── waiting_room.py   # Data preprocessing
-│   ├── owl_cave.py       # Logging/config
-│   └── laura.py          # Core application
+│   ├── data_processing.py   # Utility functions for data preparation
+│   ├── white_lodge.py       # Dimension reduction pipeline
+│   └── ...other modules...
 ├── examples/
-│   ├── generate_test.py
-│   └── visualize.py
-└── tests/
+│   ├── generate_test.py     # Script to generate test data
+│   ├── generate_clusters.py # Script to create clustered test data
+│   └── visualize.py         # Script to run visualization
+├── tests/                   # Unit tests
+└── README.md
 ```
 
 ## Usage Examples
@@ -79,69 +74,57 @@ TSneakPeaks/
 ### Basic Usage
 
 ```python
-from tsneakpeaks import TSneakPeaks
+from tsneakpeaks.white_lodge import WhiteLodge
+import numpy as np
 
-# Initialize and run visualization
-peaks = TSneakPeaks("path/to/images")
-peaks.load_data()
-fig = peaks.visualize()
-fig.show()
+# Load quadrant labels (e.g., from test_data)
+quadrant_labels = np.load("test_data/quadrant_labels.npy")
+num_quadrants = 4
+num_colors = 16
+
+# Initialize WhiteLodge for dimensionality reduction
+wl = WhiteLodge(perplexity=30, n_iter=1000)
+
+# Project to 3D
+coords_3d = wl.project_images(quadrant_labels, num_quadrants, num_colors)
+
+# coords_3d contains the 3D t-SNE projection
+print(coords_3d)
 ```
 
-### Advanced Configuration
+### Cluster Visualization
 
 ```python
-from tsneakpeaks import TSneakPeaks
-import logging
+import numpy as np
+from tsneakpeaks.white_lodge import WhiteLodge
+from pathlib import Path
 
-# Setup custom logging
-logger = logging.getLogger("TSneakPeaks")
-logger.setLevel(logging.DEBUG)
+# Load quadrant labels
+quadrant_labels = np.load("test_data/quadrant_labels.npy")
 
-# Initialize with custom parameters
-peaks = TSneakPeaks(
-    data_dir="path/to/images",
-    logger=logger
-)
+# Initialize WhiteLodge
+wl = WhiteLodge()
 
-# Customize visualization
-peaks.load_data()
-fig = peaks.visualize("My Custom Vision")
-fig.update_layout(
-    scene=dict(
-        bgcolor='rgb(30,0,0)',  # Dark red background
-    )
-)
-fig.show()
+# Perform dimensionality reduction
+coords_3d = wl.project_images(quadrant_labels, num_quadrants=4, num_colors=16)
+
+# Visualize clusters
+wl.visualize_clusters(coords_3d, quadrant_labels, output_path=Path("clusters.png"))
 ```
 
 ## Data Format
 
-The tool expects:
-- A directory containing images (PNG format)
-- Optional `labels.npy` file with feature vectors
-- If no labels are provided, they will be generated from image features
+- **Images**: PNG format, divided into 4 quadrants, each assigned a unique color from a palette.
+- **Labels**: A `.npy` file (`quadrant_labels.npy`) containing the color indices for each quadrant of all images.
+
+## Limitations
+
+- t-SNE emphasizes local relationships, so global distances between far-apart points may not always be meaningful.
+- Currently supports only color-based features; future versions may incorporate texture and pattern analysis.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-MIT License
-
-## Citation
-
-```bibtex
-@software{tsneakpeaks2024,
-  title={TSneakPeaks: Lynchian Dimensionality Reduction Visualization},
-  year={2024},
-  description={Where we're from, the birds sing a pretty song}
-}
-```
-
-     ╭┳┳┳┳┳┳┳┳┳┳┳┳┳┳┳╮
-     ┣┫┃┃┃┃┃┃┃┃┃┃┃┃┃┃┫        "The visualization 
-     ┣┫┃┃┃┃┃┃┃┃┃┃┃┃┃┃┫         is not what it seems..."
-     ┣┫┃┃┃┃┃┃┃┃┃┃┃┃┃┃┫                      🦉
-     ╰┻┻┻┻┻┻┻┻┻┻┻┻┻┻┻╯
+Contributions are welcome! To contribute:
+1. Fork the repository.
+2. Create a branch for your feature or bug fix.
+3. Submit a pull request with a detailed description of your changes.
