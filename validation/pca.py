@@ -10,7 +10,10 @@ pca = PCA(n_components=2)
 reduced_features = pca.fit_transform(features)
 
 # Simulated ground truth labels
-labels = np.repeat(range(4), 50)  # 50 images per cluster
+num_clusters = 4 
+images_per_cluster = 25
+labels = np.repeat(range(num_clusters),
+                   images_per_cluster)  
 
 # Plot the PCA results
 plt.figure(figsize=(8, 6))
